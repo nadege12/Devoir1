@@ -1,0 +1,57 @@
+def on_button_pressed_a():
+    item.move(-1)
+
+def on_button_pressed_ab():
+    global SHOOT
+    SHOOT = game.create_sprite(item.get(LedSpriteProperty.X), item.get(LedSpriteProperty.Y))
+    SHOOT.change(LedSpriteProperty.BRIGHTNESS, 80)
+    for index in range(4):
+        item.change(LedSpriteProperty.Y, -1)
+        basic.pause(2000)
+        if item.is_touching(item):
+            game.add_score(1)
+            item.delete()
+            item.delete()
+input.on_button_pressed(Button.AB, on_button_pressed_ab)
+
+def on_button_pressed_b():
+    item.move(1)
+SHOOT: game.LedSprite = None
+item: game.LedSprite = None
+item = game.create_sprite(2, 4)
+game.set_score(0)
+image = 1
+basic.show_leds("""
+    . . . . .
+        . . . . .
+        . . . . .
+        . . . . .
+        . . . . .
+""")
+basic.show_string("easy")
+basic.show_icon(IconNames.HEART)
+basic.show_icon(IconNames.DIAMOND)
+basic.show_icon(IconNames.HAPPY)
+basic.show_icon(IconNames.SQUARE)
+basic.show_string("hard")
+basic.show_icon(IconNames.HEART)
+basic.show_icon(IconNames.DIAMOND)
+basic.show_icon(IconNames.HAPPY)
+basic.show_icon(IconNames.SQUARE)
+basic.show_icon(IconNames.LEFT_TRIANGLE)
+basic.show_icon(IconNames.GIRAFFE)
+if image == 1:
+    basic.show_icon(IconNames.HEART)
+
+def on_forever():
+    item.set(LedSpriteProperty.DIRECTION, 150)
+    basic.pause(100)
+    item.turn(Direction.RIGHT, 90)
+    for index2 in range(4):
+        item.move(1)
+        basic.pause(500)
+        if item.is_touching(item):
+            game.game_over()
+            if item.is_touching_edge():
+                item.delete()
+basic.forever(on_forever)
